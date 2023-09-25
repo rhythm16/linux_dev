@@ -64,6 +64,7 @@ git clone --depth 1 --branch v6.0 https://github.com/torvalds/linux.git
 # or
 wget https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/linux-6.0.tar.xz
 tar xvf linux-6.0.tar.xz
+scripts/config -e SQUASHFS_XZ
 # gcc
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j`nproc` Image
 # llvm
