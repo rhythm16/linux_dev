@@ -8,7 +8,7 @@ FS=cloud.img
 CMDLINE="earlycon=pl011,0x09000000" #log_buf_len=64M " #kvm-arm.mode=protected" # memblock=debug"
 DUMPDTB=""
 DTB=""
-SHARED_DIR="/home/rhythm/vm_files/shared"
+SHARED_DIR=""
 UNDERSCORE_S=""
 SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=passthrough"
 
@@ -29,6 +29,7 @@ usage() {
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
     U="$U    --no-share-folder      Disable shared folder\n"
+    U="$U    -x | --shared_dir:     Shared directory path\n"
     U="$U    -h | --help:           Show this output\n"
     U="${U}\n"
     echo -e "$U" >&2
@@ -72,6 +73,10 @@ do
       -S)
         UNDERSCORE_S="-S"
         shift 1
+        ;;
+      -x | --shared_dir)
+        SHARED_DIR="$2"
+        shift 2
         ;;
       --no-share-folder)
         SHARED_OPT=""
