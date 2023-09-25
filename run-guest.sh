@@ -8,9 +8,8 @@ FS=cloud.img
 CMDLINE="earlycon=pl011,0x09000000" #log_buf_len=64M " #kvm-arm.mode=protected" # memblock=debug"
 DUMPDTB=""
 DTB=""
-SHARED_DIR=""
 UNDERSCORE_S=""
-SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=passthrough"
+SHARED_OPT=""
 
 usage() {
     U=""
@@ -28,7 +27,6 @@ usage() {
     U="$U    --dumpdtb <file>       Dump the generated DTB to <file>\n"
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
-    U="$U    --no-share-folder      Disable shared folder\n"
     U="$U    -x | --shared_dir:     Shared directory path\n"
     U="$U    -h | --help:           Show this output\n"
     U="${U}\n"
@@ -76,11 +74,8 @@ do
         ;;
       -x | --shared_dir)
         SHARED_DIR="$2"
+        SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=passthrough"
         shift 2
-        ;;
-      --no-share-folder)
-        SHARED_OPT=""
-        shift 1
         ;;
       -h | --help)
         usage ""
