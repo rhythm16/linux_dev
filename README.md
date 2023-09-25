@@ -59,6 +59,8 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j`nproc` Image
 make LLVM=1 ARCH=arm64 -j`nproc` Image
 ```
 
-
-
-
+## Root Filesystem
+```bash
+wget https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-arm64-root.tar.xz
+./make-img.sh ubuntu-22.04-server-cloudimg-arm64-root.tar.xz
+```
