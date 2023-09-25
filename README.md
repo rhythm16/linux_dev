@@ -14,7 +14,18 @@ docker run -v host:container --priviledged --network common -it ubuntu bash
 ```bash
 apt update
 apt upgrade
-apt install sudo iputils-ping iproute2 git make pkg-config libncurses-dev libglib2.0-dev libpixman-1-dev telnet bc flex bison libssl-dev zip build-essential ninja-build cmake wget
+# general
+apt install sudo iputils-ping iproute2 git make wget zip libglib2.0-dev libpixman-1-dev
+# Linux kernel compile
+apt install pkg-config bc flex bison libssl-dev build-essential
+# Linux kernel menuconfig
+apt install libncurses-dev
+# QEMU build
+apt install ninja-build cmake
+# QEMU shared dir
+apt install libcap-ng-dev libattr1-dev
+# VM debug
+apt install telnet
 ```
 
 ## QEMU
