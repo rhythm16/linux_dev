@@ -76,7 +76,7 @@ do
         ;;
       -x | --shared_dir)
         SHARED_DIR="$2"
-        shift 1
+        shift 2
         ;;
       --no-share-folder)
         SHARED_OPT=""
