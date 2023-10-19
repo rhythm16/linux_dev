@@ -10,6 +10,10 @@ DUMPDTB=""
 DTB=""
 UNDERSCORE_S=""
 SHARED_OPT=""
+GDB_PORT=""
+GDB=""
+MON_PORT=""
+MON=""
 
 usage() {
     U=""
@@ -28,6 +32,8 @@ usage() {
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
     U="$U    -x | --shared_dir:     Shared directory path\n"
+    U="$U    -g | --gdb:            GDB port\n"
+    U="$U    -m | --monitor:        Monitor port\n"
     U="$U    -h | --help:           Show this output\n"
     U="${U}\n"
     echo -e "$U" >&2
@@ -77,6 +83,16 @@ do
         SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=passthrough"
         shift 2
         ;;
+      -g | --gdb)
+        GDB_PORT="$2"
+        GDB="-gdb tcp::${GDB_PORT}"
+        shift 2
+        ;;
+      -m | --monitor)
+        MON_PORT="$2"
+        MON="-monitor telnet:localhost:${MON_PORT},server,nowait"
+        shift 2
+        ;;
       -h | --help)
         usage ""
         exit 1
@@ -112,6 +128,6 @@ qemu-system-aarch64 -nographic -machine virt,gic-version=2${DUMPDTB} -m ${MEMSIZ
     -netdev user,id=net0,hostfwd=tcp::2222-:22 \
     -device virtio-net-pci,netdev=net0,mac=de:ad:be:ef:41:49 \
     ${SHARED_OPT} \
-    -gdb tcp::12345 \
-    -monitor telnet:localhost:23456,server,nowait \
+    ${GDB} \
+    ${MON} \
     ${UNDERSCORE_S}
