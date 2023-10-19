@@ -1,8 +1,59 @@
 #! /bin/bash
 
-if [[ "$#" -ne 1 ]]; then
-    echo "Usage: ./make-image.sh some_root.tar.xz"
-    exit 2
+# exit immediately if any command fails
+set -e
+IMG_NAME="make-image-output.img"
+IMG_SIZE=60
+
+usage() {
+    U=""
+    if [[ -n "$1" ]]; then
+        U="${U}$1\n\n"
+    fi
+    U="${U}Usage: $0 [options]\n\n"
+    U="${U}Options:\n"
+    U="$U    -s | --size <GB>:       Size of disk image in GBs (default: ${IMG_SIZE}g)\n"
+    U="$U    -f | --fs <file>:       rootfs tar.xz\n"
+    U="$U    -o | --output <file>:   output file name (default: ${IMG_NAME})\n"
+    echo -e "$U" >&2
+}
+
+while :
+do
+    case "$1" in
+      -s | --size)
+        IMG_SIZE="$2"
+        shift 2
+        ;;
+      -f | --fs)
+        FS_TAR="$2"
+        shift 2
+        ;;
+      -o | --output)
+        IMG_NAME="$2"
+        shift 2
+        ;;
+      -h | --help)
+        usage ""
+        exit 1
+        ;;
+      --) # End of all options
+        shift
+        break
+        ;;
+      -*) # Unknown option
+        echo "Error: Unknown option: $1" >&2
+        exit 1
+        ;;
+      *)
+        break
+        ;;
+    esac
+done
+
+if [[ -z "$FS_TAR" ]]; then
+    echo "Please supply rootfs tar.xz" >&2
+    exit 1
 fi
 
 # create temp directory for mounting
@@ -11,12 +62,10 @@ TMP_DIR=$(mktemp -d --tmpdir=.)
 # temp file for modifying /etc/passwd in the image
 TMP_FILE=$(mktemp --tmpdir=.)
 
-IMG_NAME=${2-make-image-output.img}
-
-qemu-img create -f raw ${IMG_NAME} 20g
+qemu-img create -f raw ${IMG_NAME} ${IMG_SIZE}g
 mkfs.ext4 ${IMG_NAME}
 sudo mount ${IMG_NAME} ${TMP_DIR}
-sudo tar xvf $1 -C ${TMP_DIR}
+sudo tar xvf ${FS_TAR} -C ${TMP_DIR}
 sudo sync
 sudo touch ${TMP_DIR}/etc/cloud/cloud-init.disabled
 # copy /etc/passwd to TMP_FILE but without the first line
