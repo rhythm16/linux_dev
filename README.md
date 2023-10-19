@@ -85,4 +85,18 @@ wget https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-
 dhclient
 # mount shared directory
 mount -t 9p -o trans=virtio [mount tag] [mount point]
+# configure ssh
+dpkg-reconfigure openssh-server
+# then do PermitRootLogin yes in /etc/ssh/sshd_config
+# and copy public key to .ssh/authorized_keys (mod 600 and owner must be root)
+
+# remove snap
+# 1. see snap installed
+snap list
+# 2. remove packages
+snap remove p1 p2...
+systemctl stop snapd
+apt remove --purge --assume-yes snapd gnome-software-plugin-snap
+rm -rf ~/snap/
+rm -rf /var/cache/snapd/
 ```
