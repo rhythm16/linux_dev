@@ -10,6 +10,7 @@ DUMPDTB=""
 DTB=""
 UNDERSCORE_S=""
 SHARED_OPT=""
+SSH_PORT=""
 GDB_PORT=""
 GDB=""
 MON_PORT=""
@@ -32,6 +33,7 @@ usage() {
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
     U="$U    -x | --shared_dir:     Shared directory path\n"
+    U="$U    -p | --port:           SSH port\n"
     U="$U    -g | --gdb:            GDB port\n"
     U="$U    -m | --monitor:        Monitor port\n"
     U="$U    -h | --help:           Show this output\n"
@@ -83,6 +85,10 @@ do
         SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=passthrough"
         shift 2
         ;;
+      -p | --port)
+        SSH_PORT="$2"
+        shift 2
+        ;;
       -g | --gdb)
         GDB_PORT="$2"
         GDB="-gdb tcp::${GDB_PORT}"
@@ -125,7 +131,7 @@ qemu-system-aarch64 -nographic -machine virt,gic-version=2${DUMPDTB} -m ${MEMSIZ
     -display none \
     -serial $CONSOLE \
     -append "console=ttyAMA0 root=/dev/vda rw $CMDLINE" \
-    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+    -netdev user,id=net0,hostfwd=tcp::${SSH_PORT}-:22 \
     -device virtio-net-pci,netdev=net0,mac=de:ad:be:ef:41:49 \
     ${SHARED_OPT} \
     ${GDB} \
