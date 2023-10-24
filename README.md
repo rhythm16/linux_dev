@@ -24,6 +24,8 @@ apt install libncurses-dev
 apt install ninja-build cmake
 # QEMU shared dir
 apt install libcap-ng-dev libattr1-dev
+# QEMU `user` network
+apt install libslirp-dev
 # VM debug
 apt install telnet
 ```
@@ -36,7 +38,7 @@ git clone --depth 1 --branch v8.0.0 https://gitlab.com/qemu-project/qemu.git
 git clone https://gitlab.com/qemu-project/qemu.git
 cd qemu/
 git checkout tags/v8.0.0
-./configure --target-list=aarch64-softmmu --disable-werror --enable-virtfs
+./configure --target-list=aarch64-softmmu --disable-werror --enable-virtfs --enable-slirp
 make -j`nproc`
 sudo make install
 ```
