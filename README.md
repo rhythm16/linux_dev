@@ -31,11 +31,11 @@ apt install telnet
 ## QEMU
 
 ```bash
-git clone --depth 1 --branch v7.0.0 https://gitlab.com/qemu-project/qemu.git
+git clone --depth 1 --branch v8.0.0 https://gitlab.com/qemu-project/qemu.git
 # or
 git clone https://gitlab.com/qemu-project/qemu.git
 cd qemu/
-git checkout tags/v7.0.0
+git checkout tags/v8.0.0
 ./configure --target-list=aarch64-softmmu --disable-werror --enable-virtfs
 make -j`nproc`
 sudo make install
