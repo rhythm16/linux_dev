@@ -75,7 +75,7 @@ make LLVM=1 ARCH=arm64 -j`nproc` Image
 
 ```bash
 wget https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-arm64-root.tar.xz
-./make-img.sh ubuntu-22.04-server-cloudimg-arm64-root.tar.xz
+./make-img.sh --help
 ```
 
 ## In VM
