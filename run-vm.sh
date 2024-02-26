@@ -124,7 +124,7 @@ fi
 
 #    -netdev bridge,id=hn0,br=br0 \
 #    -device virtio-net-pci,netdev=hn0,id=nic1 \
-qemu-system-aarch64 -nographic -machine virt,gic-version=2${DUMPDTB} -m ${MEMSIZE} -cpu cortex-a57 -smp ${SMP} -machine virtualization=on \
+qemu-system-aarch64 -nographic -machine virt,gic-version=3${DUMPDTB} -m ${MEMSIZE} -cpu cortex-a72 -smp ${SMP} -machine virtualization=on \
     -kernel ${KERNEL} ${DTB} \
     -drive if=none,file=$FS,id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
