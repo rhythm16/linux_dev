@@ -85,6 +85,11 @@ wget https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-
 ```bash
 # network
 dhclient
+# don't wait for network configuration
+# reference:
+# https://askubuntu.com/questions/972215/a-start-job-is-running-for-wait-for-network-to-be-configured-ubuntu-server-17-1
+systemctl disable systemd-networkd-wait-online.service
+systemctl mask systemd-networkd-wait-online.service
 # mount shared directory
 mount -t 9p -o trans=virtio [mount tag] [mount point]
 # configure ssh
