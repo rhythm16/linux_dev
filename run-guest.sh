@@ -10,6 +10,7 @@ DUMPDTB=""
 DTB=""
 UNDERSCORE_S=""
 SHARED_OPT=""
+GUEST_32=""
 
 usage() {
     U=""
@@ -24,6 +25,7 @@ usage() {
     U="$U    -s | --serial <file>:  Output console to <file>\n"
     U="$U    -i | --image <image>:  Use <image> as block device (default $FS)\n"
     U="$U    -a | --append <snip>:  Add <snip> to the kernel cmdline\n"
+    U="$U    -w | --guest_32:       Run guest in AArch32 state\n"
     U="$U    --dumpdtb <file>       Dump the generated DTB to <file>\n"
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
@@ -59,6 +61,10 @@ do
       -a | --append)
         CMDLINE="$2"
         shift 2
+        ;;
+      -w | --guest_32)
+        GUEST_32=",aarch64=off"
+        shift 1
         ;;
       --dumpdtb)
         DUMPDTB=",dumpdtb=$2"
@@ -100,7 +106,8 @@ if [[ -z "$KERNEL" ]]; then
     exit 1
 fi
 
-qemu-system-aarch64 -nographic -machine virt -m ${MEMSIZE} -cpu host -smp ${SMP} -enable-kvm \
+qemu-system-aarch64 -nographic -machine virt,gic-version=3 -m ${MEMSIZE} -cpu host${GUEST_32} \
+    -smp ${SMP} -enable-kvm \
     -kernel ${KERNEL} ${DTB} \
     -drive if=none,file=$FS,id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
