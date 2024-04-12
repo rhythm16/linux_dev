@@ -82,7 +82,7 @@ do
         ;;
       -x | --shared_dir)
         SHARED_DIR="$2"
-        SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=passthrough"
+        SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=none"
         shift 2
         ;;
       -p | --port)
