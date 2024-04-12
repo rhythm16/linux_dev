@@ -85,17 +85,23 @@ wget https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-
 ```bash
 # network
 dhclient
+
 # don't wait for network configuration
 # reference:
 # https://askubuntu.com/questions/972215/a-start-job-is-running-for-wait-for-network-to-be-configured-ubuntu-server-17-1
 systemctl disable systemd-networkd-wait-online.service
 systemctl mask systemd-networkd-wait-online.service
+
 # mount shared directory
 mount -t 9p -o trans=virtio [mount tag] [mount point]
+
 # configure ssh
 dpkg-reconfigure openssh-server
 # then do PermitRootLogin yes in /etc/ssh/sshd_config
 # and copy public key to .ssh/authorized_keys (mod 600 and owner must be root)
+
+# create sysroot for cross compilation
+tar czvf sysroot.tar.gz /lib /usr/include /usr/lib /usr/local/lib /usr/local/include
 
 # remove snap
 # 1. see snap installed
@@ -106,4 +112,11 @@ systemctl stop snapd
 apt remove --purge --assume-yes snapd gnome-software-plugin-snap
 rm -rf ~/snap/
 rm -rf /var/cache/snapd/
+```
+
+## Cross Compilation for VM
+
+```bash
+# example command
+clang program.c -target aarch64-linux-gnu -fuse-ld=lld -o output --sysroot=../shared/sysroot/
 ```
