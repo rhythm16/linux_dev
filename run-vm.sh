@@ -65,7 +65,7 @@ do
         shift 2
         ;;
       -a | --append)
-        CMDLINE="$2"
+        CMDLINE+=" $2"
         shift 2
         ;;
       --dumpdtb)
