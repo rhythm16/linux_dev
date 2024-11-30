@@ -6,7 +6,6 @@ MEMSIZE=$((4096))
 KERNEL="Image"
 FS=cloud.img
 CMDLINE="earlycon=pl011,0x09000000" #log_buf_len=64M " #kvm-arm.mode=protected" # memblock=debug"
-DUMPDTB=""
 DTB=""
 UNDERSCORE_S=""
 SHARED_OPT=""
@@ -68,10 +67,6 @@ do
         CMDLINE+=" $2"
         shift 2
         ;;
-      --dumpdtb)
-        DUMPDTB=",dumpdtb=$2"
-        shift 2
-        ;;
       --dtb)
         DTB="-dtb $2"
         shift 2
@@ -124,7 +119,7 @@ fi
 
 #    -netdev bridge,id=hn0,br=br0 \
 #    -device virtio-net-pci,netdev=hn0,id=nic1 \
-qemu-system-aarch64 -nographic -machine virt,gic-version=3${DUMPDTB} -m ${MEMSIZE} -cpu cortex-a72 -smp ${SMP} -machine virtualization=on \
+qemu-system-aarch64 -nographic -machine virt,gic-version=3 -m ${MEMSIZE} -cpu cortex-a72 -smp ${SMP} -machine virtualization=on \
     -kernel ${KERNEL} ${DTB} \
     -drive if=none,file=$FS,id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
