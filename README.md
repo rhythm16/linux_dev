@@ -85,6 +85,8 @@ wget https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-
 ```bash
 # network
 dhclient
+# 24.04 and after
+dhcpcd enp0s2
 
 # don't wait for network configuration
 # reference:
