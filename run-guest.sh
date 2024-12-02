@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONSOLE=mon:stdio
-SMP=1
+SMP=2
 MEMSIZE=$((4096))
 KERNEL="Image"
 FS=cloud.img
