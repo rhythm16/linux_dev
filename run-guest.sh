@@ -6,7 +6,6 @@ MEMSIZE=$((4096))
 KERNEL="Image"
 FS=cloud.img
 CMDLINE="earlycon=pl011,0x09000000" #log_buf_len=64M " #kvm-arm.mode=protected" # memblock=debug"
-DUMPDTB=""
 DTB=""
 UNDERSCORE_S=""
 SHARED_OPT=""
@@ -26,7 +25,6 @@ usage() {
     U="$U    -i | --image <image>:  Use <image> as block device (default $FS)\n"
     U="$U    -a | --append <snip>:  Add <snip> to the kernel cmdline\n"
     U="$U    -w | --guest_32:       Run guest in AArch32 state\n"
-    U="$U    --dumpdtb <file>       Dump the generated DTB to <file>\n"
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
     U="$U    -x | --shared_dir:     Shared directory path\n"
@@ -65,10 +63,6 @@ do
       -w | --guest_32)
         GUEST_32=",aarch64=off"
         shift 1
-        ;;
-      --dumpdtb)
-        DUMPDTB=",dumpdtb=$2"
-        shift 2
         ;;
       --dtb)
         DTB="-dtb $2"

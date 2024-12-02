@@ -28,7 +28,6 @@ usage() {
     U="$U    -s | --serial <file>:  Output console to <file>\n"
     U="$U    -i | --image <image>:  Use <image> as block device (default $FS)\n"
     U="$U    -a | --append <snip>:  Add <snip> to the kernel cmdline\n"
-    U="$U    --dumpdtb <file>       Dump the generated DTB to <file>\n"
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
     U="$U    -x | --shared_dir:     Shared directory path\n"
