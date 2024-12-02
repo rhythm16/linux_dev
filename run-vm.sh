@@ -2,7 +2,7 @@
 
 CONSOLE=mon:stdio
 SMP=4
-MEMSIZE=$((4096))
+MEMSIZE=$((8192))
 KERNEL="Image"
 FS=cloud.img
 CMDLINE="earlycon=pl011,0x09000000" #log_buf_len=64M " #kvm-arm.mode=protected" # memblock=debug"
