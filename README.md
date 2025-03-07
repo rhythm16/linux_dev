@@ -83,7 +83,7 @@ wget https://cloud-images.ubuntu.com/releases/noble/release/ubuntu-24.04-server-
 ## In VM
 
 ```bash
-# network
+# network, for both host and guest
 dhclient
 # 24.04 and after
 dhcpcd enp0s2
@@ -104,6 +104,13 @@ dpkg-reconfigure openssh-server
 
 # create sysroot for cross compilation
 tar czvf sysroot.tar.gz /lib /usr/include /usr/lib /usr/local/lib /usr/local/include
+
+# set up tap for guest networking
+ip tuntap add tap0 mode tap
+ip link set dev tap0 up
+ip link add br0 type bridge
+ip link set tap0 master br0
+ip link set enp0s2 master br0
 
 # remove snap
 # 1. see snap installed

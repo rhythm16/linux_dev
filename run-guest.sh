@@ -100,6 +100,7 @@ if [[ -z "$KERNEL" ]]; then
     exit 1
 fi
 
+#    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
 qemu-system-aarch64 -nographic -machine virt,gic-version=3 -m ${MEMSIZE} -cpu host${GUEST_32} \
     -smp ${SMP} -enable-kvm \
     -kernel ${KERNEL} ${DTB} \
@@ -108,8 +109,8 @@ qemu-system-aarch64 -nographic -machine virt,gic-version=3 -m ${MEMSIZE} -cpu ho
     -display none \
     -serial $CONSOLE \
     -append "console=ttyAMA0 root=/dev/vda rw $CMDLINE" \
-    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
-    -device virtio-net-pci,netdev=net0,mac=de:ad:be:ef:41:48 \
+    -netdev tap,id=mytap0,ifname=tap0,script=no,downscript=no,vhost=on \
+    -device virtio-net-pci,netdev=mytap0,mac=de:ad:be:ef:41:48 \
     ${SHARED_OPT} \
     -gdb tcp::12345 \
     -monitor telnet:localhost:23456,server,nowait \
