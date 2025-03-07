@@ -33,11 +33,11 @@ apt install telnet
 ## QEMU
 
 ```bash
-git clone --depth 1 --branch v8.0.0 https://gitlab.com/qemu-project/qemu.git
+git clone --depth 1 --branch v9.0.0 https://gitlab.com/qemu-project/qemu.git
 # or
 git clone https://gitlab.com/qemu-project/qemu.git
 cd qemu/
-git checkout tags/v8.0.0
+git checkout tags/v9.0.0
 ./configure --target-list=aarch64-softmmu --disable-werror --enable-virtfs --enable-slirp
 make -j`nproc`
 sudo make install
@@ -62,10 +62,10 @@ sudo cmake --build build --target install
 ## Linux Kernel
 
 ```bash
-git clone --depth 1 --branch v6.0 https://github.com/torvalds/linux.git
+git clone --depth 1 --branch v6.13 https://github.com/torvalds/linux.git
 # or
-wget https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/linux-6.0.tar.xz
-tar xvf linux-6.0.tar.xz
+wget https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/linux-6.13.tar.xz
+tar xvf linux-6.13.tar.xz
 scripts/config -e SQUASHFS_XZ
 # gcc
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j`nproc` Image
@@ -76,7 +76,7 @@ make LLVM=1 ARCH=arm64 -j`nproc` Image
 ## Root Filesystem
 
 ```bash
-wget https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-arm64-root.tar.xz
+wget https://cloud-images.ubuntu.com/releases/noble/release/ubuntu-24.04-server-cloudimg-arm64-root.tar.xz
 ./make-img.sh --help
 ```
 
