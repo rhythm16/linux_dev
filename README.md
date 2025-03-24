@@ -123,6 +123,11 @@ rm -rf ~/snap/
 rm -rf /var/cache/snapd/
 ```
 
+## Debugging Pitfalls
+
+- add nokaslr to kernel command line when using GDB
+- beware of the default HCR_E2H value of the CPU being emulated
+
 ## Cross Compilation for VM
 
 ```bash
