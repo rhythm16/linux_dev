@@ -10,6 +10,11 @@ DTB=""
 UNDERSCORE_S=""
 SHARED_OPT=""
 GUEST_32=""
+USER_NETWORK_STRING="    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+    -device virtio-net-pci,netdev=net0,mac=de:ad:be:ef:41:48"
+TAP_NETWORK_STRING="    -netdev tap,id=mytap0,ifname=tap0,script=no,downscript=no,vhost=on \
+    -device virtio-net-pci,netdev=mytap0,mac=de:ad:be:ef:41:48"
+NETWORK_STRING=${USER_NETWORK_STRING}
 
 usage() {
     U=""
@@ -28,6 +33,7 @@ usage() {
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
     U="$U    -x | --shared_dir:     Shared directory path\n"
+    U="$U    -t | --tap:            Use tap network instead of user network, vhost is enabled\n"
     U="$U    -h | --help:           Show this output\n"
     U="${U}\n"
     echo -e "$U" >&2
@@ -77,6 +83,10 @@ do
         SHARED_OPT="-virtfs local,path=${SHARED_DIR},mount_tag=shared,security_model=passthrough"
         shift 2
         ;;
+      -t | --tap)
+        NETWORK_STRING=${TAP_NETWORK_STRING}
+        shift 2
+        ;;
       -h | --help)
         usage ""
         exit 1
@@ -100,17 +110,15 @@ if [[ -z "$KERNEL" ]]; then
     exit 1
 fi
 
-#    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
 qemu-system-aarch64 -nographic -machine virt,gic-version=3 -m ${MEMSIZE} -cpu host${GUEST_32} \
     -smp ${SMP} -enable-kvm \
     -kernel ${KERNEL} ${DTB} \
     -drive if=none,file=$FS,id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
     -display none \
-    -netdev tap,id=mytap0,ifname=tap0,script=no,downscript=no,vhost=on \
-    -device virtio-net-pci,netdev=mytap0,mac=de:ad:be:ef:41:48 \
     -serial ${CONSOLE} \
     -append "console=ttyAMA0 root=/dev/vda rw ${CMDLINE}" \
+    ${NETWORK_STRING} \
     ${SHARED_OPT} \
     -gdb tcp::12345 \
     -monitor telnet:localhost:23456,server,nowait \
