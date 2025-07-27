@@ -26,7 +26,7 @@ usage() {
     U="$U    -m | --mem <MB>:       Memory size (default ${MEMSIZE})\n"
     U="$U    -k | --kernel <Image>: Use kernel image (default ${KERNEL})\n"
     U="$U    -s | --serial <file>:  Output console to <file>\n"
-    U="$U    -i | --image <image>:  Use <image> as block device (default $FS)\n"
+    U="$U    -i | --image <image>:  Use <image> as block device (default ${FS})\n"
     U="$U    -a | --append <snip>:  Add <snip> to the kernel cmdline\n"
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
     U="$U    -S                     Stop on startup, wait for GDB\n"
@@ -126,11 +126,11 @@ qemu-system-aarch64 -nographic -machine virt -m ${MEMSIZE} -cpu cortex-a710 -smp
     -machine mte=on \
     -machine iommu=smmuv3 \
     -kernel ${KERNEL} ${DTB} \
-    -drive if=none,file=$FS,id=vda,cache=none,format=raw \
+    -drive if=none,file=${FS},id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
     -display none \
-    -serial $CONSOLE \
-    -append "console=ttyAMA0 root=/dev/vda rw $CMDLINE" \
+    -serial ${CONSOLE} \
+    -append "console=ttyAMA0 root=/dev/vda rw ${CMDLINE}" \
     -netdev user,id=net0,hostfwd=tcp::${SSH_PORT}-:22 \
     -device virtio-net-pci,netdev=net0,mac=de:ad:be:ef:41:49 \
     ${SHARED_OPT} \

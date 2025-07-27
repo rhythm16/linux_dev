@@ -22,7 +22,7 @@ usage() {
     U="$U    -m | --mem <MB>:       Memory size (default ${MEMSIZE})\n"
     U="$U    -k | --kernel <Image>: Use kernel image (default ${KERNEL})\n"
     U="$U    -s | --serial <file>:  Output console to <file>\n"
-    U="$U    -i | --image <image>:  Use <image> as block device (default $FS)\n"
+    U="$U    -i | --image <image>:  Use <image> as block device (default ${FS})\n"
     U="$U    -a | --append <snip>:  Add <snip> to the kernel cmdline\n"
     U="$U    -w | --guest_32:       Run guest in AArch32 state\n"
     U="$U    --dtb <file>           Use the supplied DTB instead of the auto-generated one\n"
@@ -107,10 +107,10 @@ qemu-system-aarch64 -nographic -machine virt,gic-version=3 -m ${MEMSIZE} -cpu ho
     -drive if=none,file=$FS,id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
     -display none \
-    -serial $CONSOLE \
-    -append "console=ttyAMA0 root=/dev/vda rw $CMDLINE" \
     -netdev tap,id=mytap0,ifname=tap0,script=no,downscript=no,vhost=on \
     -device virtio-net-pci,netdev=mytap0,mac=de:ad:be:ef:41:48 \
+    -serial ${CONSOLE} \
+    -append "console=ttyAMA0 root=/dev/vda rw ${CMDLINE}" \
     ${SHARED_OPT} \
     -gdb tcp::12345 \
     -monitor telnet:localhost:23456,server,nowait \
