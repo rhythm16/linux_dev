@@ -21,7 +21,7 @@ apt install pkg-config bc flex bison libssl-dev build-essential
 # Linux kernel menuconfig
 apt install libncurses-dev
 # QEMU build
-apt install ninja-build cmake
+apt install ninja-build cmake python3-venv
 # QEMU shared dir
 apt install libcap-ng-dev libattr1-dev
 # QEMU `user` network
