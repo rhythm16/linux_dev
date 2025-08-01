@@ -118,13 +118,13 @@ fi
 
 #    -netdev bridge,id=hn0,br=br0 \
 #    -device virtio-net-pci,netdev=hn0,id=nic1 \
+#    -machine secure=on \
+#    -machine mte=on \
+#    -machine iommu=smmuv3 \
 # see https://www.qemu.org/docs/master/system/arm/virt.html
-qemu-system-aarch64 -nographic -machine virt -m ${MEMSIZE} -cpu cortex-a710 -smp ${SMP} \
+qemu-system-aarch64 -nographic -machine virt -m ${MEMSIZE} -cpu max -smp ${SMP} \
     -machine virtualization=on \
     -machine gic-version=3 \
-    -machine secure=on \
-    -machine mte=on \
-    -machine iommu=smmuv3 \
     -kernel ${KERNEL} ${DTB} \
     -drive if=none,file=${FS},id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
