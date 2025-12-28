@@ -113,6 +113,15 @@ ip link set dev tap0 up
 ip link add br0 type bridge
 ip link set tap0 master br0
 ip link set enp0s2 master br0
+ip link set dev enp0s2 up
+
+# undo
+ip link set enp0s2 nomaster
+ip link set tap0 nomaster
+ip link set br0 down
+ip link del br0
+ip link del tap0
+dhcpcd enp0s2
 
 # remove snap
 # 1. see snap installed
