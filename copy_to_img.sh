@@ -60,7 +60,7 @@ fi
 TMP_DIR=$(mktemp -d --tmpdir=.)
 
 sudo mount ${IMAGE} ${TMP_DIR}
-sudo cp ${FILE} ${TMP_DIR}/root
+sudo cp -r ${FILE} ${TMP_DIR}/root
 sudo sync
 sudo umount ${TMP_DIR}
 
