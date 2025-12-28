@@ -26,6 +26,8 @@ apt install ninja-build cmake python3-venv
 apt install libcap-ng-dev libattr1-dev
 # QEMU `user` network
 apt install libslirp-dev
+# kvmtool make dependency
+apt install libfdt-dev
 # VM debug
 apt install telnet
 ```
