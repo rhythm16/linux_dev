@@ -76,6 +76,8 @@ sudo rm ${TMP_DIR}/etc/passwd
 sudo /bin/bash -c "echo root::0:0:root:/root:/bin/bash > ${TMP_DIR}/etc/passwd"
 # copy the TMP_FILE to create the new /etc/passwd
 sudo /bin/bash -c "cat ${TMP_FILE} >> ${TMP_DIR}/etc/passwd"
+# force DNS server ip
+sudo /bin/bash -c "echo \"DNS=8.8.8.8\" >> ${TMP_DIR}/etc/systemd/resolved.conf"
 sudo sync
 sudo umount ${TMP_DIR}
 
