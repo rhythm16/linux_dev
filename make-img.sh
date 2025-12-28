@@ -62,7 +62,7 @@ TMP_DIR=$(mktemp -d --tmpdir=.)
 # temp file for modifying /etc/passwd in the image
 TMP_FILE=$(mktemp --tmpdir=.)
 
-qemu-img create -f raw ${IMG_NAME} ${IMG_SIZE}g
+truncate -s ${IMG_SIZE}g ${IMG_NAME}
 mkfs.ext4 ${IMG_NAME}
 sudo mount ${IMG_NAME} ${TMP_DIR}
 sudo tar xvf ${FS_TAR} -C ${TMP_DIR}
