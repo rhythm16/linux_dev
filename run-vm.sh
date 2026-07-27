@@ -14,6 +14,8 @@ GDB_PORT=""
 GDB=""
 MON_PORT=""
 MON=""
+BIOS_FILE=""
+BIOS=""
 
 usage() {
     U=""
@@ -24,6 +26,7 @@ usage() {
     U="${U}Options:\n"
     U="$U    -c | --CPU <nr>:       Number of cores (default ${SMP})\n"
     U="$U    -m | --mem <MB>:       Memory size (default ${MEMSIZE})\n"
+    U="$U    -b | --bios <BIOS>:    BIOS file\n"
     U="$U    -k | --kernel <Image>: Use kernel image (default ${KERNEL})\n"
     U="$U    -s | --serial <file>:  Output console to <file>\n"
     U="$U    -i | --image <image>:  Use <image> as block device (default ${FS})\n"
@@ -52,6 +55,11 @@ do
         ;;
       -k | --kernel)
         KERNEL="$2"
+        shift 2
+        ;;
+      -b | --bios)
+        BIOS_FILE="$2"
+        BIOS="--bios ${BIOS_FILE}"
         shift 2
         ;;
       -s | --serial)
@@ -125,6 +133,7 @@ fi
 qemu-system-aarch64 -nographic -machine virt -m ${MEMSIZE} -cpu max -smp ${SMP} \
     -machine virtualization=on \
     -machine gic-version=3 \
+    ${BIOS} \
     -kernel ${KERNEL} ${DTB} \
     -drive if=none,file=${FS},id=vda,cache=none,format=raw \
     -device virtio-blk-pci,drive=vda \
