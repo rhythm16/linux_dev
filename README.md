@@ -82,6 +82,17 @@ wget https://cloud-images.ubuntu.com/releases/noble/release/ubuntu-24.04-server-
 ./make-img.sh --help
 ```
 
+### Wait for ttyAMA0 indefinitely
+
+Make the following in the root filesystem:
+
+```
+$ cat /etc/systemd/system/dev-ttyAMA0.device.d/timeout.conf
+[Unit]
+JobTimeoutSec=infinity
+JobRunningTimeoutSec=infinity
+```
+
 ## In VM
 
 ```bash
