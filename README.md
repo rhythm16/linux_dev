@@ -78,7 +78,7 @@ make LLVM=1 ARCH=arm64 -j`nproc` Image
 ## Root Filesystem
 
 ```bash
-wget https://cloud-images.ubuntu.com/releases/noble/release/ubuntu-24.04-server-cloudimg-arm64-root.tar.xz
+wget https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-arm64-root.tar.xz
 ./make-img.sh --help
 ```
 
